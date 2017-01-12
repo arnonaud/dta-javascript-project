@@ -1,0 +1,16 @@
+{
+  "name": "projet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pizzayolo.js",
+  "scripts": {
+    "start":"serve -p 3001",
+    "api": "json-server data.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "^0.9.4",
+    "serve": "^2.1.2"
+  }
+}

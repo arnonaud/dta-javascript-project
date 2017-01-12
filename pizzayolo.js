@@ -17,8 +17,24 @@ class RecipeService{
 
 
     isRecipeCompliant(recipe, pizza) {
-               
+        if (recipe.toppings.length !== pizza.toppings.length) return false;
 
+        return pizza.toppings.reduce((acc, topping) =>
+            acc 
+            && recipe.toppings.indexOf(topping) !== -1 
+            && pizza.toppings.indexOf(topping) === pizza.toppings.lastIndexOf(topping)
+            , true);
+    }
+    
+    getPizzaRecipeName(pizza){
+        return this.getRecipes()
+            .then(recipes => {
+                return recipes.reduce(
+                    (acc,recipe) => 
+                    acc 
+                    || (this.isRecipeCompliant(recipe,pizza) ? recipe.name : false),
+                 false);
+            })
     }
 
     getRecipe(name){
@@ -42,6 +58,38 @@ class RecipeService{
     }
 }
 
+class PizzeriaService{
+    constructor(recipesService){
+        this.pool = []
+        this.recipesService = recipesService
+
+    }
+
+    strat(){
+       const intervalId = setInterval(()=>{
+            console.log(this.pool);
+            let alea = Math.floor(Math.random()*3);
+            recipesService.getRecipe(recipesService.getRecipes()
+                            .then(
+                                recipes => {
+                                    this.pool.push(recipes.find(recipe => recipe.id === (alea+1)).name);
+                                }
+                            ))
+            if(this.pool.length >= 10){
+                console.log('GAME OVER');
+                clearInterval(intervalId);
+            }
+           
+        },1000)
+
+    }
+
+     sendPizza (pizzaName) {
+        const idx = this.pool.indexOf(pizzaName);
+        if (idx !== -1) this.pool.splice(idx, 1);
+    }
+
+}
 
 
 

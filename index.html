@@ -1,6 +1,8 @@
+<button onClick="makePizza('Margharita')">Margharita</button>
+<button onClick="makePizza('Regina')">Regina</button>
 <script src="pizzayolo.js"></script>
 <script>
-
+/*
 const recipesService = new RecipeService();
 
 
@@ -25,7 +27,15 @@ setTimeout(()=>{
             console.log("queryRecipes() :", recipe);
     })
 },2000);
+*/
+
+const recipesService = new RecipeService();
+const pizzeriaService = new PizzeriaService(recipesService);
+
+pizzeriaService.strat();
 
 
-
+    function makePizza (name) {
+        pizzeriaService.sendPizza(name);
+    }
 </script>

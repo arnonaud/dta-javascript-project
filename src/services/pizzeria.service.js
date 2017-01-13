@@ -7,7 +7,6 @@ export class PizzeriaService{
 
     start(){
        const intervalId = setInterval(()=>{
-            console.log(this.pool);
             let alea = Math.floor(Math.random()*3);
             this.recipesService.getRecipe(this.recipesService.getRecipes()
                             .then(
@@ -16,11 +15,11 @@ export class PizzeriaService{
                                 }
                             ))
             if(this.pool.length >= 10){
-                console.log('GAME OVER');
                 clearInterval(intervalId);
+                 this.pool = [];
             }
            
-        },1000)
+        },2000)
 
     }
 

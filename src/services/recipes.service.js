@@ -1,4 +1,5 @@
-export class RecipeService{
+import _ from 'lodash';
+export class RecipesService{
     constructor(){
         this.recipes = null;
     };
@@ -17,12 +18,12 @@ export class RecipeService{
 
 
     isRecipeCompliant(recipe, pizza) {
-        if (recipe.toppings.length !== pizza.toppings.length) return false;
+        if (recipe.toppings.length !== pizza.length) return false;
 
-        return pizza.toppings.reduce((acc, topping) =>
+        return pizza.reduce((acc, topping) =>
             acc 
             && recipe.toppings.indexOf(topping) !== -1 
-            && pizza.toppings.indexOf(topping) === pizza.toppings.lastIndexOf(topping)
+            && pizza.indexOf(topping) === pizza.lastIndexOf(topping)
             , true);
     }
     
@@ -56,4 +57,17 @@ export class RecipeService{
                    .then(recipes => recipes
                             .filter(recipe => recipe.name.toLowerCase().includes(query.toLowerCase())));   
     }
+
+     getToppings() {
+        return this.getRecipes()
+        .then(recipes => 
+            _(recipes.map(recipe => recipe.toppings))
+                .flatten()
+                .uniq()
+                .value()
+        )
+        .catch(this.handleError)
+        
+    }
+
 }
